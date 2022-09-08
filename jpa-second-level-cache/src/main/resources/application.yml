@@ -1,0 +1,33 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+    initialization-mode: always
+
+  h2:
+    console:
+      enabled: true
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+    properties:
+      javax:
+        persistence:
+          sharedCache:
+            #required - enable selective caching mode - only entities with @Cacheable annotation will use L2 cache.
+            mode: ENABLE_SELECTIVE
+      hibernate:
+        format_sql: true
+        #optional - generate statistics to check if L2/query cache is actually being used.
+        generate_statistics: true
+        cache:
+          use_second_level_cache: true
+          use_query_cache: true
+          region:
+            factory_class: org.hibernate.cache.jcache.JCacheRegionFactory
